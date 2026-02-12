@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>For Tarra Didu ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+background:black;
+color:white;
+font-family:'Poppins',sans-serif;
+overflow:hidden;
+text-align:center;
+transition:0.5s;
+}
+
+.start-screen{
+position:fixed;
+width:100%;
+height:100vh;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:10;
+}
+
+.start-screen h2{
+font-family:'Dancing Script',cursive;
+color:#ff4d6d;
+font-size:40px;
+margin-bottom:20px;
+}
+
+.start-screen button{
+padding:15px 30px;
+border:none;
+border-radius:30px;
+background:#ff4d6d;
+color:white;
+font-size:18px;
+cursor:pointer;
+}
+
+.container{
+display:none;
+padding-top:40px;
+}
+
+img{
+width:220px;
+border-radius:20px;
+margin-bottom:20px;
+box-shadow:0 0 25px rgba(255,77,109,0.6);
+}
+
+h1{
+font-family:'Dancing Script',cursive;
+color:#ff4d6d;
+font-size:45px;
+margin-bottom:20px;
+}
+
+#text{
+width:85%;
+max-width:700px;
+margin:auto;
+font-size:18px;
+line-height:1.8;
+min-height:200px;
+}
+
+.glow{
+font-family:'Dancing Script',cursive;
+font-size:40px;
+color:#ff4d6d;
+margin-top:20px;
+text-shadow:0 0 10px #ff4d6d,0 0 20px #ff4d6d;
+display:none;
+}
+
+.forgive-btn{
+margin-top:20px;
+padding:12px 25px;
+border:none;
+border-radius:30px;
+background:#ff4d6d;
+color:white;
+font-size:16px;
+cursor:pointer;
+display:none;
+margin-right:10px;
+}
+
+.angry-btn{
+background:#444;
+}
+
+@keyframes shake{
+0%{transform:translate(0,0);}
+25%{transform:translate(5px,-5px);}
+50%{transform:translate(-5px,5px);}
+75%{transform:translate(5px,5px);}
+100%{transform:translate(0,0);}
+}
+
+.heart{
+position:absolute;
+color:#ff4d6d;
+font-size:20px;
+animation:float 6s linear infinite;
+opacity:0.6;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
+}
+
+.rain{
+position:fixed;
+width:2px;
+height:15px;
+background:rgba(255,255,255,0.3);
+top:-20px;
+animation:rainFall linear infinite;
+}
+
+@keyframes rainFall{
+to{transform:translateY(100vh);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="start-screen">
+<h2>Tarra Didu ❤️</h2>
+<button onclick="startExperience()">Click To Open 🥺</button>
+</div>
+
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+<img src="photo.jpg">
+<h1>I'm Sorry...</h1>
+<div id="text"></div>
+<div class="glow">I Love You Didu ❤️</div>
+<br>
+<button class="forgive-btn" onclick="forgive()">Maaf Kar Do 🥺</button>
+<button class="forgive-btn angry-btn" onclick="heartBreak()">Still Angry? 💔</button>
+</div>
+
+<script>
+
+const music=document.getElementById("bgMusic");
+
+function startExperience(){
+document.querySelector(".start-screen").style.display="none";
+document.querySelector(".container").style.display="block";
+music.volume=0;
+music.play();
+fadeInMusic();
+typeWriter();
+}
+
+function fadeInMusic(){
+let vol=0;
+const interval=setInterval(()=>{
+if(vol<0.4){
+vol+=0.02;
+music.volume=vol;
+}else{
+clearInterval(interval);
+}
+},200);
+}
+
+const message=`Tarra Didu...
+
+Jab maine aapko hurt kiya...
+tab shayad mujhe ehsaas nahi tha...
+
+Lekin jab se aap naraz ho,
+tab se sab kuch khaali lagta hai...
+
+Meri har smile adhuri hai...
+meri har baat adhuri hai...
+
+Aap meri duniya ho...
+
+Please mujhe maaf kar do... ❤️`;
+
+let i=0;
+function typeWriter(){
+if(i<message.length){
+document.getElementById("text").innerHTML+=message.charAt(i);
+i++;
+setTimeout(typeWriter,50);
+}else{
+document.querySelector(".glow").style.display="block";
+document.querySelectorAll(".forgive-btn").forEach(btn=>btn.style.display="inline-block");
+music.volume=0.7;
+}
+}
+
+function forgive(){
+document.getElementById("text").innerHTML="Thank you Tarra Didu ❤️<br>Main hamesha aapka khayal rakhunga 🥺";
+}
+
+function heartBreak(){
+music.volume=0.1;
+document.body.style.background="#0a0000";
+document.body.style.animation="shake 0.5s";
+
+document.getElementById("text").innerHTML=
+"Tarra Didu... yeh sirf words nahi hain... 🥺<br><br>" +
+"Main sach me sharminda hoon...";
+
+playVoice();
+startRain();
+}
+
+function playVoice(){
+const voice=new Audio("sorry.mp3");
+voice.volume=1;
+voice.play();
+
+voice.onended=function(){
+setTimeout(()=>{
+document.getElementById("text").innerHTML=
+"Bas ek baar keh do... 🥺<br><br>Maaf kiya... ❤️";
+},3000);
+};
+}
+
+function startRain(){
+for(let i=0;i<80;i++){
+const drop=document.createElement("div");
+drop.classList.add("rain");
+drop.style.left=Math.random()*100+"vw";
+drop.style.animationDuration=(Math.random()*1+0.5)+"s";
+document.body.appendChild(drop);
+setTimeout(()=>{drop.remove();},2000);
+}
+}
+
+function createHeart(){
+const heart=document.createElement("div");
+heart.classList.add("heart");
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+heart.style.animationDuration=Math.random()*3+3+"s";
+document.body.appendChild(heart);
+setTimeout(()=>{heart.remove();},6000);
+}
+
+setInterval(createHeart,500);
+
+</script>
+
+</body>
+</html>
