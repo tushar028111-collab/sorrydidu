@@ -13,9 +13,9 @@ body{
 background:black;
 color:white;
 font-family:'Poppins',sans-serif;
-overflow:hidden;
 text-align:center;
 transition:0.5s;
+overflow:hidden;
 }
 
 .start-screen{
@@ -94,7 +94,7 @@ color:white;
 font-size:16px;
 cursor:pointer;
 display:none;
-margin-right:10px;
+margin:10px;
 }
 
 .angry-btn{
@@ -109,19 +109,6 @@ background:#444;
 100%{transform:translate(0,0);}
 }
 
-.heart{
-position:absolute;
-color:#ff4d6d;
-font-size:20px;
-animation:float 6s linear infinite;
-opacity:0.6;
-}
-
-@keyframes float{
-0%{transform:translateY(100vh);}
-100%{transform:translateY(-10vh);}
-}
-
 .rain{
 position:fixed;
 width:2px;
@@ -133,6 +120,19 @@ animation:rainFall linear infinite;
 
 @keyframes rainFall{
 to{transform:translateY(100vh);}
+}
+
+.heart{
+position:absolute;
+color:#ff4d6d;
+font-size:20px;
+animation:float 6s linear infinite;
+opacity:0.6;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
 }
 </style>
 </head>
@@ -149,41 +149,47 @@ to{transform:translateY(100vh);}
 </audio>
 
 <div class="container">
-<img src="photo.jpg">
+<img src="photo.jpg" alt="photo">
 <h1>I'm Sorry...</h1>
 <div id="text"></div>
-<div class="glow">I Love You Didu ❤️</div>
-<br>
-<button class="forgive-btn" onclick="forgive()">Maaf Kar Do 🥺</button>
-<button class="forgive-btn angry-btn" onclick="heartBreak()">Still Angry? 💔</button>
+<div class="glow" id="glowText">I Love You Didu ❤️</div>
+
+<button class="forgive-btn" id="forgiveBtn" onclick="forgive()">Maaf Kar Do 🥺</button>
+<button class="forgive-btn angry-btn" id="angryBtn" onclick="heartBreak()">Still Angry? 💔</button>
 </div>
 
 <script>
 
-const music=document.getElementById("bgMusic");
+const music = document.getElementById("bgMusic");
+const textDiv = document.getElementById("text");
+const glow = document.getElementById("glowText");
+const forgiveBtn = document.getElementById("forgiveBtn");
+const angryBtn = document.getElementById("angryBtn");
 
 function startExperience(){
 document.querySelector(".start-screen").style.display="none";
 document.querySelector(".container").style.display="block";
-music.volume=0;
+
+music.volume = 0;
 music.play();
+
 fadeInMusic();
 typeWriter();
 }
 
 function fadeInMusic(){
-let vol=0;
-const interval=setInterval(()=>{
-if(vol<0.4){
-vol+=0.02;
-music.volume=vol;
+let vol = 0;
+const interval = setInterval(()=>{
+if(vol < 0.4){
+vol += 0.02;
+music.volume = vol;
 }else{
 clearInterval(interval);
 }
 },200);
 }
 
-const message=`Tarra Didu...
+const message = `Tarra Didu...
 
 Jab maine aapko hurt kiya...
 tab shayad mujhe ehsaas nahi tha...
@@ -198,51 +204,51 @@ Aap meri duniya ho...
 
 Please mujhe maaf kar do... ❤️`;
 
-let i=0;
+let i = 0;
+
 function typeWriter(){
-if(i<message.length){
-document.getElementById("text").innerHTML+=message.charAt(i);
+if(i < message.length){
+textDiv.innerHTML += message.charAt(i);
 i++;
 setTimeout(typeWriter,50);
 }else{
-document.querySelector(".glow").style.display="block";
-document.querySelectorAll(".forgive-btn").forEach(btn=>btn.style.display="inline-block");
-music.volume=0.7;
+glow.style.display = "block";
+forgiveBtn.style.display = "inline-block";
+angryBtn.style.display = "inline-block";
+music.volume = 0.7;
 }
 }
 
 function forgive(){
-document.getElementById("text").innerHTML="Thank you Tarra Didu ❤️<br>Main hamesha aapka khayal rakhunga 🥺";
+textDiv.innerHTML = "Thank you Tarra Didu ❤️<br>Main hamesha aapka khayal rakhunga 🥺";
+forgiveBtn.style.display = "none";
+angryBtn.style.display = "none";
 }
 
 function heartBreak(){
-music.volume=0.1;
+music.volume = 0.1;
 document.body.style.background="#0a0000";
 document.body.style.animation="shake 0.5s";
 
-document.getElementById("text").innerHTML=
-"Tarra Didu... yeh sirf words nahi hain... 🥺<br><br>" +
-"Main sach me sharminda hoon...";
+textDiv.innerHTML="Tarra Didu... yeh sirf words nahi hain... 🥺<br><br>Main sach me sharminda hoon...";
 
 playVoice();
 startRain();
 }
 
 function playVoice(){
-const voice=new Audio("sorry.mp3");
-voice.volume=1;
+const voice = new Audio("sorry.mp3");
 voice.play();
 
-voice.onended=function(){
+voice.onended = function(){
 setTimeout(()=>{
-document.getElementById("text").innerHTML=
-"Bas ek baar keh do... 🥺<br><br>Maaf kiya... ❤️";
+textDiv.innerHTML="Bas ek baar keh do... 🥺<br><br>Maaf kiya... ❤️";
 },3000);
 };
 }
 
 function startRain(){
-for(let i=0;i<80;i++){
+for(let i=0;i<60;i++){
 const drop=document.createElement("div");
 drop.classList.add("rain");
 drop.style.left=Math.random()*100+"vw";
