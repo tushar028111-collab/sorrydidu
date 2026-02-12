@@ -1,92 +1,189 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>For Tarra Didu ❤️</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Tarra Didu ❤️</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --accent-color: #ff4d6d;
+            --bg-color: #000000;
+            --text-color: #ffffff;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-body{
-background:black;
-color:white;
-font-family:'Poppins',sans-serif;
-text-align:center;
-margin:0;
-padding:0;
-}
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            transition: background-color 1s ease;
+            text-align: center;
+        }
 
-.start-screen{
-position:fixed;
-width:100%;
-height:100vh;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-}
+        /* Start Screen */
+        #start-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
 
-.container{
-display:none;
-padding:40px 20px;
-}
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
 
-h1{
-font-family:'Dancing Script',cursive;
-color:#ff4d6d;
-font-size:45px;
-}
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+        }
 
-img{
-width:220px;
-border-radius:20px;
-margin:20px 0;
-}
+        .btn:hover {
+            transform: scale(1.05);
+        }
 
-button{
-padding:12px 25px;
-border:none;
-border-radius:30px;
-background:#ff4d6d;
-color:white;
-font-size:16px;
-cursor:pointer;
-margin:10px;
-}
+        /* Main Content */
+        #main-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+        }
 
-.angry{
-background:#444;
-}
-</style>
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(255, 77, 109, 0.3);
+        }
+
+        .sorry-heading {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        #typewriter-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            min-height: 200px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+
+        .glow-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            margin-top: 20px;
+            opacity: 0;
+            text-shadow: 0 0 10px rgba(255, 77, 109, 0.8);
+            animation: glow 1.5s ease-in-out infinite alternate;
+            display: none;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #ff4d6d, 0 0 10px #ff4d6d; }
+            to { text-shadow: 0 0 20px #ff4d6d, 0 0 30px #ff758c; }
+        }
+
+        .button-group {
+            display: none;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* Final Message */
+        #final-message {
+            font-size: 1.3rem;
+            color: var(--text-color);
+            margin-top: 20px;
+            display: none;
+            line-height: 1.6;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 480px) {
+            h1 { font-size: 3rem; }
+            .sorry-heading { font-size: 2.5rem; }
+            #typewriter-text { font-size: 1rem; }
+            .profile-img { width: 120px; height: 120px; }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="start-screen">
-<h2 style="color:#ff4d6d;font-family:'Dancing Script',cursive;font-size:40px;">
-Tarra Didu ❤️
-</h2>
-<button onclick="start()">Click To Open 🥺</button>
-</div>
+    <!-- Audio Elements -->
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sorryVoice">
+        <source src="sorry.mp3" type="audio/mpeg">
+    </audio>
 
-<audio id="music" src="music.mp3" loop></audio>
+    <!-- Start Screen -->
+    <div id="start-screen">
+        <h1>Tarra Didu ❤️</h1>
+        <button class="btn" onclick="startApp()">Click To Open 🥺</button>
+    </div>
 
-<div class="container">
-<img src="photo.jpg">
-<h1>I'm Sorry...</h1>
-<p id="message"></p>
+    <!-- Main Content -->
+    <div id="main-content">
+        <img src="photo.jpg" alt="Tarra Didu" class="profile-img">
+        <h2 class="sorry-heading">I'm Sorry...</h2>
+        
+        <div id="typewriter-text"></div>
+        
+        <div id="glow-msg" class="glow-text">I Love You Didu ❤️</div>
 
-<div id="buttons" style="display:none;">
-<button onclick="forgive()">Maaf Kar Do 🥺</button>
-<button class="angry" onclick="angry()">Still Angry? 💔</button>
-</div>
+        <div id="btn-container" class="button-group">
+            <button class="btn" onclick="forgive()">Maaf Kar Do 🥺</button>
+            <button class="btn btn-outline" onclick="stillAngry()">Still Angry? 💔</button>
+        </div>
 
-</div>
+        <div id="final-message"></div>
+    </div>
 
-<script>
-
-const text = `Tarra Didu...
+    <script>
+        const text = `Tarra Didu...
 
 Jab maine aapko hurt kiya...
 tab shayad mujhe ehsaas nahi tha...
@@ -98,44 +195,70 @@ Meri har smile adhuri hai...
 
 Please mujhe maaf kar do... ❤️`;
 
-let i = 0;
+        let i = 0;
+        const speed = 70; // Typing speed in ms
 
-function start(){
-document.querySelector(".start-screen").style.display="none";
-document.querySelector(".container").style.display="block";
+        function startApp() {
+            // Start Music
+            document.getElementById('bgMusic').play().catch(e => console.log("Audio play failed, waiting for interaction"));
+            
+            // UI Transition
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'flex';
+            
+            // Start Typewriter
+            typeWriter();
+        }
 
-const music = document.getElementById("music");
-music.volume = 0.3;
-music.play();
+        function typeWriter() {
+            if (i < text.length) {
+                let char = text.charAt(i);
+                document.getElementById("typewriter-text").innerHTML += char === "\n" ? "<br>" : char;
+                i++;
+                setTimeout(typeWriter, speed);
+            } else {
+                // Show final elements after typing completes
+                showPostTyping();
+            }
+        }
 
-typeWriter();
-}
+        function showPostTyping() {
+            const glowMsg = document.getElementById('glow-msg');
+            const btnContainer = document.getElementById('btn-container');
+            
+            glowMsg.style.display = 'block';
+            setTimeout(() => glowMsg.style.opacity = '1', 100);
+            
+            btnContainer.style.display = 'flex';
+        }
 
-function typeWriter(){
-if(i < text.length){
-document.getElementById("message").innerHTML += text.charAt(i);
-i++;
-setTimeout(typeWriter,40);
-}else{
-document.getElementById("buttons").style.display="block";
-}
-}
+        function forgive() {
+            document.getElementById('btn-container').style.display = 'none';
+            document.getElementById('typewriter-text').style.display = 'none';
+            document.getElementById('glow-msg').style.display = 'none';
+            
+            const finalMsg = document.getElementById('final-message');
+            finalMsg.style.display = 'block';
+            finalMsg.innerHTML = "Thank you Tarra Didu ❤️<br>Main hamesha aapka khayal rakhunga 🥺";
+            
+            // Change background back to black if it was red
+            document.body.style.backgroundColor = "#000";
+        }
 
-function forgive(){
-document.getElementById("message").innerHTML =
-"Thank you Tarra Didu ❤️<br>Main hamesha aapka khayal rakhunga 🥺";
-document.getElementById("buttons").style.display="none";
-}
+        function stillAngry() {
+            // Change background color
+            document.body.style.backgroundColor = "#2b0a0a";
+            
+            // Play voice audio
+            document.getElementById('sorryVoice').play();
 
-function angry(){
-document.getElementById("message").innerHTML =
-"Tarra Didu... main sach me sharminda hoon... 🥺<br><br>Bas ek baar keh do... Maaf kiya ❤️";
-
-const voice = new Audio("sorry.mp3");
-voice.play();
-}
-
-</script>
-
+            // Update Text
+            const typewriter = document.getElementById('typewriter-text');
+            typewriter.innerHTML = "Tarra Didu... main sach me sharminda hoon...<br>Bas ek baar keh do... Maaf kiya ❤️";
+            
+            // Hide the "Still Angry" button specifically or change its behavior
+            // In this case, we keep the forgive button prominent
+        }
+    </script>
 </body>
 </html>
