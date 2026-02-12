@@ -7,15 +7,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
 body{
 background:black;
 color:white;
 font-family:'Poppins',sans-serif;
 text-align:center;
-transition:0.5s;
-overflow:hidden;
+margin:0;
+padding:0;
 }
 
 .start-screen{
@@ -27,65 +25,26 @@ display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
-z-index:10;
-}
-
-.start-screen h2{
-font-family:'Dancing Script',cursive;
-color:#ff4d6d;
-font-size:40px;
-margin-bottom:20px;
-}
-
-.start-screen button{
-padding:15px 30px;
-border:none;
-border-radius:30px;
-background:#ff4d6d;
-color:white;
-font-size:18px;
-cursor:pointer;
 }
 
 .container{
 display:none;
-padding-top:40px;
-}
-
-img{
-width:220px;
-border-radius:20px;
-margin-bottom:20px;
-box-shadow:0 0 25px rgba(255,77,109,0.6);
+padding:40px 20px;
 }
 
 h1{
 font-family:'Dancing Script',cursive;
 color:#ff4d6d;
 font-size:45px;
-margin-bottom:20px;
 }
 
-#text{
-width:85%;
-max-width:700px;
-margin:auto;
-font-size:18px;
-line-height:1.8;
-min-height:200px;
+img{
+width:220px;
+border-radius:20px;
+margin:20px 0;
 }
 
-.glow{
-font-family:'Dancing Script',cursive;
-font-size:40px;
-color:#ff4d6d;
-margin-top:20px;
-text-shadow:0 0 10px #ff4d6d,0 0 20px #ff4d6d;
-display:none;
-}
-
-.btn{
-margin-top:20px;
+button{
 padding:12px 25px;
 border:none;
 border-radius:30px;
@@ -93,20 +52,11 @@ background:#ff4d6d;
 color:white;
 font-size:16px;
 cursor:pointer;
-display:none;
 margin:10px;
 }
 
 .angry{
 background:#444;
-}
-
-@keyframes shake{
-0%{transform:translate(0,0);}
-25%{transform:translate(5px,-5px);}
-50%{transform:translate(-5px,5px);}
-75%{transform:translate(5px,5px);}
-100%{transform:translate(0,0);}
 }
 </style>
 </head>
@@ -114,36 +64,29 @@ background:#444;
 <body>
 
 <div class="start-screen">
-<h2>Tarra Didu ❤️</h2>
-<button id="startBtn">Click To Open 🥺</button>
+<h2 style="color:#ff4d6d;font-family:'Dancing Script',cursive;font-size:40px;">
+Tarra Didu ❤️
+</h2>
+<button onclick="start()">Click To Open 🥺</button>
 </div>
 
-<audio id="bgMusic" loop>
-<source src="music.mp3" type="audio/mpeg">
-</audio>
+<audio id="music" src="music.mp3" loop></audio>
 
 <div class="container">
-<img src="photo.jpg" alt="photo">
+<img src="photo.jpg">
 <h1>I'm Sorry...</h1>
-<div id="text"></div>
-<div class="glow" id="glowText">I Love You Didu ❤️</div>
+<p id="message"></p>
 
-<button class="btn" id="forgiveBtn">Maaf Kar Do 🥺</button>
-<button class="btn angry" id="angryBtn">Still Angry? 💔</button>
+<div id="buttons" style="display:none;">
+<button onclick="forgive()">Maaf Kar Do 🥺</button>
+<button class="angry" onclick="angry()">Still Angry? 💔</button>
+</div>
+
 </div>
 
 <script>
 
-document.addEventListener("DOMContentLoaded", function(){
-
-const music = document.getElementById("bgMusic");
-const textDiv = document.getElementById("text");
-const glow = document.getElementById("glowText");
-const forgiveBtn = document.getElementById("forgiveBtn");
-const angryBtn = document.getElementById("angryBtn");
-const startBtn = document.getElementById("startBtn");
-
-const message = `Tarra Didu...
+const text = `Tarra Didu...
 
 Jab maine aapko hurt kiya...
 tab shayad mujhe ehsaas nahi tha...
@@ -152,70 +95,46 @@ Lekin jab se aap naraz ho,
 tab se sab kuch khaali lagta hai...
 
 Meri har smile adhuri hai...
-meri har baat adhuri hai...
-
-Aap meri duniya ho...
 
 Please mujhe maaf kar do... ❤️`;
 
 let i = 0;
 
-function typeWriter(){
-if(i < message.length){
-textDiv.innerHTML += message.charAt(i);
-i++;
-setTimeout(typeWriter,50);
-}else{
-glow.style.display="block";
-forgiveBtn.style.display="inline-block";
-angryBtn.style.display="inline-block";
-music.volume=0.7;
-}
-}
-
-startBtn.addEventListener("click", function(){
+function start(){
 document.querySelector(".start-screen").style.display="none";
 document.querySelector(".container").style.display="block";
-music.volume=0;
+
+const music = document.getElementById("music");
+music.volume = 0.3;
 music.play();
 
-let vol=0;
-const fade=setInterval(()=>{
-if(vol<0.4){
-vol+=0.02;
-music.volume=vol;
-}else{
-clearInterval(fade);
-}
-},200);
-
 typeWriter();
-});
+}
 
-forgiveBtn.addEventListener("click", function(){
-textDiv.innerHTML="Thank you Tarra Didu ❤️<br>Main hamesha aapka khayal rakhunga 🥺";
-forgiveBtn.style.display="none";
-angryBtn.style.display="none";
-});
+function typeWriter(){
+if(i < text.length){
+document.getElementById("message").innerHTML += text.charAt(i);
+i++;
+setTimeout(typeWriter,40);
+}else{
+document.getElementById("buttons").style.display="block";
+}
+}
 
-angryBtn.addEventListener("click", function(){
-music.volume=0.1;
-document.body.style.background="#0a0000";
-document.body.style.animation="shake 0.5s";
+function forgive(){
+document.getElementById("message").innerHTML =
+"Thank you Tarra Didu ❤️<br>Main hamesha aapka khayal rakhunga 🥺";
+document.getElementById("buttons").style.display="none";
+}
 
-textDiv.innerHTML="Tarra Didu... yeh sirf words nahi hain... 🥺<br><br>Main sach me sharminda hoon...";
+function angry(){
+document.getElementById("message").innerHTML =
+"Tarra Didu... main sach me sharminda hoon... 🥺<br><br>Bas ek baar keh do... Maaf kiya ❤️";
 
-const voice=new Audio("sorry.mp3");
+const voice = new Audio("sorry.mp3");
 voice.play();
+}
 
-voice.onended=function(){
-setTimeout(()=>{
-textDiv.innerHTML="Bas ek baar keh do... 🥺<br><br>Maaf kiya... ❤️";
-},3000);
-};
-});
-
-});
 </script>
 
 </body>
