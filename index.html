@@ -84,7 +84,7 @@ text-shadow:0 0 10px #ff4d6d,0 0 20px #ff4d6d;
 display:none;
 }
 
-.forgive-btn{
+.btn{
 margin-top:20px;
 padding:12px 25px;
 border:none;
@@ -97,7 +97,7 @@ display:none;
 margin:10px;
 }
 
-.angry-btn{
+.angry{
 background:#444;
 }
 
@@ -108,32 +108,6 @@ background:#444;
 75%{transform:translate(5px,5px);}
 100%{transform:translate(0,0);}
 }
-
-.rain{
-position:fixed;
-width:2px;
-height:15px;
-background:rgba(255,255,255,0.3);
-top:-20px;
-animation:rainFall linear infinite;
-}
-
-@keyframes rainFall{
-to{transform:translateY(100vh);}
-}
-
-.heart{
-position:absolute;
-color:#ff4d6d;
-font-size:20px;
-animation:float 6s linear infinite;
-opacity:0.6;
-}
-
-@keyframes float{
-0%{transform:translateY(100vh);}
-100%{transform:translateY(-10vh);}
-}
 </style>
 </head>
 
@@ -141,7 +115,7 @@ opacity:0.6;
 
 <div class="start-screen">
 <h2>Tarra Didu ❤️</h2>
-<button onclick="startExperience()">Click To Open 🥺</button>
+<button id="startBtn">Click To Open 🥺</button>
 </div>
 
 <audio id="bgMusic" loop>
@@ -154,40 +128,20 @@ opacity:0.6;
 <div id="text"></div>
 <div class="glow" id="glowText">I Love You Didu ❤️</div>
 
-<button class="forgive-btn" id="forgiveBtn" onclick="forgive()">Maaf Kar Do 🥺</button>
-<button class="forgive-btn angry-btn" id="angryBtn" onclick="heartBreak()">Still Angry? 💔</button>
+<button class="btn" id="forgiveBtn">Maaf Kar Do 🥺</button>
+<button class="btn angry" id="angryBtn">Still Angry? 💔</button>
 </div>
 
 <script>
+
+document.addEventListener("DOMContentLoaded", function(){
 
 const music = document.getElementById("bgMusic");
 const textDiv = document.getElementById("text");
 const glow = document.getElementById("glowText");
 const forgiveBtn = document.getElementById("forgiveBtn");
 const angryBtn = document.getElementById("angryBtn");
-
-function startExperience(){
-document.querySelector(".start-screen").style.display="none";
-document.querySelector(".container").style.display="block";
-
-music.volume = 0;
-music.play();
-
-fadeInMusic();
-typeWriter();
-}
-
-function fadeInMusic(){
-let vol = 0;
-const interval = setInterval(()=>{
-if(vol < 0.4){
-vol += 0.02;
-music.volume = vol;
-}else{
-clearInterval(interval);
-}
-},200);
-}
+const startBtn = document.getElementById("startBtn");
 
 const message = `Tarra Didu...
 
@@ -212,64 +166,56 @@ textDiv.innerHTML += message.charAt(i);
 i++;
 setTimeout(typeWriter,50);
 }else{
-glow.style.display = "block";
-forgiveBtn.style.display = "inline-block";
-angryBtn.style.display = "inline-block";
-music.volume = 0.7;
+glow.style.display="block";
+forgiveBtn.style.display="inline-block";
+angryBtn.style.display="inline-block";
+music.volume=0.7;
 }
 }
 
-function forgive(){
-textDiv.innerHTML = "Thank you Tarra Didu ❤️<br>Main hamesha aapka khayal rakhunga 🥺";
-forgiveBtn.style.display = "none";
-angryBtn.style.display = "none";
-}
+startBtn.addEventListener("click", function(){
+document.querySelector(".start-screen").style.display="none";
+document.querySelector(".container").style.display="block";
+music.volume=0;
+music.play();
 
-function heartBreak(){
-music.volume = 0.1;
+let vol=0;
+const fade=setInterval(()=>{
+if(vol<0.4){
+vol+=0.02;
+music.volume=vol;
+}else{
+clearInterval(fade);
+}
+},200);
+
+typeWriter();
+});
+
+forgiveBtn.addEventListener("click", function(){
+textDiv.innerHTML="Thank you Tarra Didu ❤️<br>Main hamesha aapka khayal rakhunga 🥺";
+forgiveBtn.style.display="none";
+angryBtn.style.display="none";
+});
+
+angryBtn.addEventListener("click", function(){
+music.volume=0.1;
 document.body.style.background="#0a0000";
 document.body.style.animation="shake 0.5s";
 
 textDiv.innerHTML="Tarra Didu... yeh sirf words nahi hain... 🥺<br><br>Main sach me sharminda hoon...";
 
-playVoice();
-startRain();
-}
-
-function playVoice(){
-const voice = new Audio("sorry.mp3");
+const voice=new Audio("sorry.mp3");
 voice.play();
 
-voice.onended = function(){
+voice.onended=function(){
 setTimeout(()=>{
 textDiv.innerHTML="Bas ek baar keh do... 🥺<br><br>Maaf kiya... ❤️";
 },3000);
 };
-}
+});
 
-function startRain(){
-for(let i=0;i<60;i++){
-const drop=document.createElement("div");
-drop.classList.add("rain");
-drop.style.left=Math.random()*100+"vw";
-drop.style.animationDuration=(Math.random()*1+0.5)+"s";
-document.body.appendChild(drop);
-setTimeout(()=>{drop.remove();},2000);
-}
-}
-
-function createHeart(){
-const heart=document.createElement("div");
-heart.classList.add("heart");
-heart.innerHTML="❤️";
-heart.style.left=Math.random()*100+"vw";
-heart.style.animationDuration=Math.random()*3+3+"s";
-document.body.appendChild(heart);
-setTimeout(()=>{heart.remove();},6000);
-}
-
-setInterval(createHeart,500);
-
+});
 </script>
 
 </body>
